@@ -11,7 +11,7 @@ p {
 p.front {
     animation-duration: 550ms;
     animation-timing-function: cubic-bezier(.17,.03,.95,.3);
-    animation-name: frontflip
+    animation-name: frontflipping
 }
 
 p.back {
@@ -19,10 +19,10 @@ p.back {
 
     animation-duration: 550ms;
     animation-timing-function: cubic-bezier(.17,.03,.95,.3);
-    animation-name: backflip
+    animation-name: backflipping
 }
 
-@keyframes frontflip {
+@keyframes frontflipping {
     0% {
         transform: rotateY(0deg);
     }
@@ -32,7 +32,7 @@ p.back {
     }
 }
 
-@keyframes backflip {
+@keyframes backflipping {
     0% {
         transform: rotateY(-180deg);
     }
