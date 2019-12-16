@@ -1,5 +1,9 @@
 let colorlist=['#f849cc','red','#f48720','yellow','#0cc656','#37a6eb','#940bda'];
 
+let sleep = function (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+  
 let normalizeColor = function (color) {
 
     let normalizedColor = color;
@@ -41,7 +45,20 @@ let getNextColor = function (color, colorlist) {
 
 };
 
-let changeColors=function(event) {
+let flip = function (paragraphe) {
+    
+    let paragraphClassList = paragraphe.classList;
+    if (paragraphClassList.contains('back')) {
+        paragraphClassList.add('front');
+        paragraphClassList.remove('back');
+    } else {
+        paragraphClassList.add('back');
+        paragraphClassList.remove('front');
+    }
+
+}    
+
+let changeColors = async function(event) {
     let x = 0;
     while (x <= 900){
 
@@ -50,6 +67,12 @@ let changeColors=function(event) {
         let color = getColorOfParagraph(paragraphe);
         let nextColor = getNextColor(color, normalizedColorlist);
         paragraphe.style='color:' + nextColor;
+
+        if (x < 15) {
+            await sleep(60);
+        }
+
+        flip(paragraphe);
 
         x = x + 1;
     };

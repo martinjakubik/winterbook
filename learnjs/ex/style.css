@@ -1,8 +1,44 @@
 body {
     background-color: #79f8ef;
 }
+
 p {
-    padding-left: 660px;
+    padding-left: 620px;
     font-size: 40pt;
     border: 1px solid;
 }
+
+p.front {
+    animation-duration: 550ms;
+    animation-timing-function: cubic-bezier(.17,.03,.95,.3);
+    animation-name: frontflip
+}
+
+p.back {
+    transform: rotateY(-180deg);
+
+    animation-duration: 550ms;
+    animation-timing-function: cubic-bezier(.17,.03,.95,.3);
+    animation-name: backflip
+}
+
+@keyframes frontflip {
+    0% {
+        transform: rotateY(0deg);
+    }
+    
+    100% {
+        transform: rotateY(180deg);
+    }
+}
+
+@keyframes backflip {
+    0% {
+        transform: rotateY(-180deg);
+    }
+
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
