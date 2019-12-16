@@ -3,7 +3,7 @@ body {
 }
 
 p {
-    padding-left: 620px;
+    padding-left: calc(50% - 101px);
     font-size: 40pt;
     border: 1px solid;
 }
