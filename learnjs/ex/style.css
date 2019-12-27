@@ -42,3 +42,6 @@ p.back {
     }
 }
 
+
+canvas{padding-left: calc(50% - 350px);}
+
