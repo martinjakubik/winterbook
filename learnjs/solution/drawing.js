@@ -20,7 +20,7 @@ let redrawBackground = function (oContext) {
 redrawBackground(context);
 
 let globoimage = new Image();
-globoimage.src='/Users/martin/code/gitwork/winterbook/learnjs/solution/globohappy.png';
+globoimage.src='globohappy.png';
 globoimage.onload=function(){
     context.drawImage(globoimage, 15, 600, 100, 100);
 }
