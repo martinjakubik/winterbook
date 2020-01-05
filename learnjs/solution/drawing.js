@@ -8,25 +8,25 @@ document.body.insertBefore(canvas, null);
 canvas.width = 800;
 canvas.height = 700;
 
-let context = canvas.getContext( '2d' );
+let oContext = canvas.getContext( '2d' );
+
+let gradient = oContext.createLinearGradient(10, 10, 1000, 500);
+gradient.addColorStop(0, 'purple');
+gradient.addColorStop(1, 'blue');
 
 let redrawBackground = function (oContext) {
 
-    let gradient = oContext.createLinearGradient(10, 10, 1000, 500);
-    gradient.addColorStop(0, 'purple');
-    gradient.addColorStop(1, 'blue');
-    
     oContext.fillStyle = gradient;
     oContext.fillRect(10, 10, 1000, 1000);
 
 };
 
-redrawBackground(context);
+redrawBackground(oContext);
 
 let globoimage = new Image();
 globoimage.src = 'globohappy.png';
 globoimage.onload = function(){
-    context.drawImage(globoimage, 15, 600, 100, 100);
+    oContext.drawImage(globoimage, 15, 600, 100, 100);
 };
 
 let jump = async function (oContext) {
@@ -52,6 +52,6 @@ let jump = async function (oContext) {
 
 document.addEventListener('mouseup', async () => {
 
-    jump(context);
+    jump(oContext);
 
 })
