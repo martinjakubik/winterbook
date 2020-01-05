@@ -5,8 +5,8 @@ let sleep = function (milliseconds) {
 
 let canvas= document.createElement('canvas');
 document.body.insertBefore(canvas, null);
-canvas.width = 800;
-canvas.height = 700;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 let oContext = canvas.getContext( '2d' );
 
@@ -17,7 +17,7 @@ gradient.addColorStop(1, 'blue');
 let redrawBackground = function (oContext) {
 
     oContext.fillStyle = gradient;
-    oContext.fillRect(10, 10, 1000, 1000);
+    oContext.fillRect(10, 10, canvas.width, canvas.height);
 
 };
 
