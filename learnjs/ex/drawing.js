@@ -1,3 +1,6 @@
+let sleep = function (milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
 
 let canvas= document.createElement('canvas');
 document.body.insertBefore(canvas,null);
@@ -19,8 +22,25 @@ globoimage.src='/Users/martin/code/gitwork/winterbook/learnjs/ex/globohappy.png'
 globoimage.onload=function(){
     context.drawImage(globoimage,15,600,100,100);
 }
-document.addEventListener('mouseup',()=>{
-    context.fillRect(10,10,1000,1000);
-    context.drawImage(globoimage,15,450,100,100);
- 
+
+document.addEventListener('mouseup',async()=>{
+let top=600;
+let frame=0;
+    while(frame<6){
+        frame=frame+1;
+        context.fillRect(10,10,1000,1000);
+    context.drawImage(globoimage,15,top,100,100);
+    await sleep(50);
+    top=top-50;
+    }
+
+frame=0
+    while(frame<7){
+        frame=frame+1;
+        context.fillRect(10,10,1000,1000);
+    context.drawImage(globoimage,15,top,100,100);
+    await sleep(50);
+    top=top+50;
+    }
 })
+

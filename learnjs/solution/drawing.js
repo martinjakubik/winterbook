@@ -31,18 +31,15 @@ globoimage.onload = function(){
 
 let jump = async function (oContext) {
 
-    redrawBackground(oContext);
-    oContext.drawImage(globoimage, 15, 450, 100, 100);
- 
     let iHeight = 600;
     let iFrame = 0;
-    while (iFrame < 6) {
+    while (iFrame < 12) {
 
-        iHeight = 600 - Math.abs(Math.sin(iFrame / 2) * 150);
+        iHeight = 600 - Math.abs(Math.sin(iFrame / 4) * 150);
         redrawBackground(oContext);
         oContext.drawImage(globoimage, 15, iHeight, 100, 100);
         
-        await sleep(100);
+        await sleep(50);
         iFrame = iFrame + 1;
         
     }
