@@ -4,27 +4,28 @@ let sleep = function (milliseconds) {
 }
 
 // creates a canvas on the page
-let canvas= document.createElement('canvas');
-document.body.insertBefore(canvas,null);
-canvas.width = 800;
-canvas.height = 700;
+let canvas = document.createElement('canvas');
+document.body.insertBefore(canvas, null);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// gets the brush from the canvas
 let brush = canvas.getContext( '2d' );
 
-// makes a gradient brush
-let gradient=brush.createLinearGradient(10, 10, 1000,500);
-gradient.addColorStop(0, 'purple');
-gradient.addColorStop(1, 'blue');
+// clears the entire canvas by redrawing the background image on it 
+let clearCanvas = function (canvas) {
 
-brush.fillStyle = gradient;
-brush.fillRect(10,10,1000,1000);
+    brush.fillStyle = 'blue';
+    brush.fillRect(0, 0, canvas.width, canvas.height);
+    
+};
+
+clearCanvas(canvas);
 
 // draws an image of Globo
 let globoimage = new Image();
-globoimage.src='/Users/martin/code/gitwork/winterbook/learnjs/ex/globohappy.png';
+globoimage.src='globohappy.png';
 globoimage.onload=function(){
-    brush.drawImage(globoimage,15,600,100,100);
+    brush.drawImage(globoimage, 15, window.innerHeight-100, 100, 100);
 }
 
 // draws a star image
@@ -34,43 +35,35 @@ starimage.onload=function(){
     brush.drawImage(starimage,740,640,60,60);
 }
 
-// clears the entire canvas by redrawing the background image on it 
-let clearCanvas = function (canvas) {
+// reacts when you tap
+document.addEventListener('mouseup', async () => {
 
-    let brush = canvas.getContext( '2d' );
+    drawJump(canvas)
 
-    brush.fillStyle = gradient;
-    brush.fillRect(0, 0, canvas.width, canvas.height);
-
-};
+})
 
 // makes Globo jump
 let drawJump = async function (canvas) { 
 
     let brush = canvas.getContext( '2d' );
 
-    let iTop = 600;
-    let iFrame = 0;
-    while (iFrame < 12) {
+    let iTop = (window.innerHeight - 100);
+    let counter = 0;
+    while (counter < 12) {
 
-        iTop = 600 - Math.abs(Math.sin(iFrame / 4) * 150);
+        iTop = (window.innerHeight - 100) - Math.abs(Math.sin(counter / 4) * 150);
         clearCanvas(canvas);
         brush.drawImage(globoimage, 15, iTop, 100, 100);
         
         await sleep(50);
-        iFrame = iFrame + 1;
+        counter = counter + 1;
         
     }
 
-    iTop = 600;
+    iTop = (window.innerHeight - 100);
     clearCanvas(canvas);
     brush.drawImage(globoimage, 15, iTop, 100, 100);
 
 };
 
-document.addEventListener('mouseup',async()=>{
-
-    drawJump(canvas)
-
-})
-
+while(counter){}
