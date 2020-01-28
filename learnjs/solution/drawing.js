@@ -75,11 +75,24 @@ let jump = async function (oContext) {
 
 };
 
-let moveStar = function (oContext, from, to) {
+let moveStar = function (oContext, starLoop) {
 
-    if (from) {
-        redrawBackground(oContext, from.x, from.y, starWidth, starHeight);
-    }
+    let starTop = boardHeight - 3 * starHeight;
+    let starLeft = boardWidth - starWidth - (starLoop - 1);
+
+    let from = {
+        x: starLeft,
+        y: starTop
+    };
+
+    starLeft = boardWidth - starWidth - starLoop;
+
+    let to = {
+        x: starLeft,
+        y: starTop
+    };
+
+    redrawBackground(oContext, from.x, from.y, starWidth, starHeight);
     oContext.drawImage(starImage, to.x, to.y, starWidth, starHeight);
 
 };
@@ -99,25 +112,12 @@ let startGame = async function () {
     drawStar();
 
     let starLoop = 0;
-    let from = null;
-    let to = null;
-    let starTop = 0;
-    let starLeft = 0;
 
     while (starLoop < boardWidth) {
 
         starLoop = starLoop + 1;
 
-        starTop = boardHeight - 3 * starHeight;
-        starLeft = boardWidth - starWidth - starLoop;
-
-        from = to ? to : null;
-        to = {
-            x: starLeft,
-            y: starTop
-        };
-
-        moveStar(oContext, from, to);
+        moveStar(oContext, starLoop);
         await sleep(10);
 
     }
