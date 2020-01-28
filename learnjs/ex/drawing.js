@@ -129,7 +129,8 @@ let startGame = async function () {
 
         // ---- your code here ----
         // makes the star move
-        
+        moveStar(brush, starLoop)
+        starLoop = starLoop + 1
         
         
         
