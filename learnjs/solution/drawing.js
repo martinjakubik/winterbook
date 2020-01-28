@@ -80,6 +80,13 @@ let jump = async function (brush) {
 
 };
 
+// reacts when you tap
+document.addEventListener('mouseup', async () => {
+
+    jump(brush);
+
+})
+
 let moveStar = function (brush, starLoop) {
 
     let starTop = boardHeight - 3 * starHeight;
@@ -101,13 +108,6 @@ let moveStar = function (brush, starLoop) {
     brush.drawImage(starImage, to.x, to.y, starWidth, starHeight);
 
 };
-
-// reacts when you tap
-document.addEventListener('mouseup', async () => {
-
-    jump(brush);
-
-})
 
 let startGame = async function () {
 

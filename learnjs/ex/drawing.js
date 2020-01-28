@@ -80,6 +80,13 @@ let jump = async function (brush) {
 
 };
 
+// reacts when you tap
+document.addEventListener('mouseup', async () => {
+
+    jump(brush);
+
+})
+
 let moveStar = function (brush, starLoop) {
 
     let starTop = boardHeight - 3 * starHeight;
@@ -102,13 +109,6 @@ let moveStar = function (brush, starLoop) {
 
 };
 
-// reacts when you tap
-document.addEventListener('mouseup', async () => {
-
-    jump(brush);
-
-})
-
 let startGame = async function () {
 
     await sleep(1000);
@@ -121,10 +121,16 @@ let startGame = async function () {
 
     while (starLoop < boardWidth) {
 
-        starLoop = starLoop + 1;
+        // your code here
+        // makes the star move
 
-        moveStar(brush, starLoop);
+
+
+
+
+        // slows down the loop a bit
         await sleep(10);
+
     }
 
 }
