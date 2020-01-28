@@ -18,44 +18,35 @@ canvas.height = boardHeight;
 
 let oContext = canvas.getContext( '2d' );
 
-let redrawBackground = function (oContext) {
-
-    oContext.fillStyle = 'blue';
-    oContext.fillRect(0, 0, boardWidth, boardHeight);
-
-};
-
-redrawBackground(oContext);
-
 let globoimages = ['globohappy.png', 'globomad.png', 'globosad.png']
 let globoimage = new Image();
 globoimage.src = globoimages[0];
-globoimage.onload = function() {
+let starImage = new Image();
+starImage.src = 'starglobonormal.png';
+
+let drawGlobo = function () {
     let globoTop = boardHeight - globoHeight;
     let globoLeft = 15;
     oContext.drawImage(globoimage, globoLeft, globoTop, globoWidth, globoHeight);
-};
+}
 
-let starImage = new Image();
-starImage.src = 'starglobonormal.png';
-starImage.onload = function() {
-    let starTop = boardHeight - starHeight;
+let drawStar = function() {
+    let starTop = boardHeight - 3 * starHeight;
     let starLeft = boardWidth - starWidth;
     
-    for (starTop = boardHeight - starHeight; starTop > 0; starTop = starTop - (2 * starHeight)) {
-        oContext.drawImage(starImage, starLeft, starTop, starWidth, starHeight);
-    }
+    oContext.drawImage(starImage, starLeft, starTop, starWidth, starHeight);
 };
 
-let starImageRed = new Image();
-starImageRed.src = 'starglobored.png';
-starImageRed.onload = function() {
-    let starTop = boardHeight - starHeight - starHeight - starHeight;
-    let starLeft = boardWidth - starWidth;
+let redrawBackground = function (oContext, x, y, width, height) {
 
-    for (starTop = boardHeight - (2 * starHeight); starTop > 0; starTop = starTop - (2 * starHeight)) {
-        oContext.drawImage(starImageRed, starLeft, starTop, starWidth, starHeight);
-    }
+    const x1 = x ? x : 0;
+    const y1 = y ? y : 0;
+    const width1 = width ? width : boardWidth;
+    const height1 = height ? height : boardHeight;
+
+    oContext.fillStyle = 'blue';
+    oContext.fillRect(x1, y1, width1, height1);
+
 };
 
 let jump = async function (oContext) {
@@ -67,8 +58,11 @@ let jump = async function (oContext) {
     let iFrame = 0;
     while (iFrame < 12) {
 
-        iTop = 600 - Math.abs(Math.sin(iFrame / 4) * 150);
-        redrawBackground(oContext);
+        // clears globo
+        redrawBackground(oContext, 15, iTop, globoWidth, globoHeight);
+
+        // draws new globo
+        iTop = globoTop - Math.abs(Math.sin(iFrame / 4) * 150);
         oContext.drawImage(globoimage, 15, iTop, globoWidth, globoHeight);
         
         await sleep(50);
@@ -76,9 +70,17 @@ let jump = async function (oContext) {
         
     }
 
-    iTop = globoTop;
-    redrawBackground(oContext);
-    oContext.drawImage(globoimage, 15, iTop, globoWidth, globoHeight);
+    redrawBackground(oContext, 15, iTop, globoWidth, globoHeight);
+    oContext.drawImage(globoimage, 15, globoTop, globoWidth, globoHeight);
+
+};
+
+let moveStar = function (oContext, from, to) {
+
+    if (from) {
+        redrawBackground(oContext, from.x, from.y, starWidth, starHeight);
+    }
+    oContext.drawImage(starImage, to.x, to.y, starWidth, starHeight);
 
 };
 
@@ -87,3 +89,39 @@ document.addEventListener('mouseup', async () => {
     jump(oContext);
 
 })
+
+let startGame = async function () {
+
+    await sleep(2000);
+
+    redrawBackground(oContext);
+    drawGlobo();
+    drawStar();
+
+    let starLoop = 0;
+    let from = null;
+    let to = null;
+    let starTop = 0;
+    let starLeft = 0;
+
+    while (starLoop < boardWidth) {
+
+        starLoop = starLoop + 1;
+
+        starTop = boardHeight - 3 * starHeight;
+        starLeft = boardWidth - starWidth - starLoop;
+
+        from = to ? to : null;
+        to = {
+            x: starLeft,
+            y: starTop
+        };
+
+        moveStar(oContext, from, to);
+        await sleep(10);
+
+    }
+
+}
+
+startGame();
