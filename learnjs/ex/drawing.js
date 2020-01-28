@@ -12,6 +12,12 @@ let sleep = function (milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
+let backButton = document.createElement('a');
+document.body.insertBefore(backButton, null);
+backButton.innerText = 'Back';
+backButton.href = '../index.html';
+backButton.style.position = 'fixed';
+
 let canvas= document.createElement('canvas');
 document.body.insertBefore(canvas, null);
 canvas.width = boardWidth;
