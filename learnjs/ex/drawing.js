@@ -127,13 +127,13 @@ let startGame = async function () {
 
     while (starLoop < boardWidth) {
 
-        // ---- your code here -----
+        // ---- your code here ----
         // makes the star move
         
         
         
         
-        // ---- ---- ---- ---- -----
+        // ---- ---- ---- ---- ----
 
         // slows down the loop a bit
         await sleep(10);
