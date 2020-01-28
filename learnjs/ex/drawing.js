@@ -1,69 +1,132 @@
-// sleeps for the given number of milliseconds
+let boardHeight = window.innerHeight;
+let boardWidth = window.innerWidth;
+
+let globoWidth = 100;
+let globoHeight = 100;
+
+let starWidth = 60;
+let starHeight = 60;
+
+// does nothing for the given number of milliseconds
 let sleep = function (milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-// creates a canvas on the page
-let canvas = document.createElement('canvas');
+let canvas= document.createElement('canvas');
 document.body.insertBefore(canvas, null);
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = boardWidth;
+canvas.height = boardHeight;
 
 let brush = canvas.getContext( '2d' );
 
-// clears the entire canvas by redrawing the background image on it 
-let clearCanvas = function (canvas) {
-
-    brush.fillStyle = 'blue';
-    brush.fillRect(0, 0, canvas.width, canvas.height);
-    
-};
-
-clearCanvas(canvas);
+let globoimages = ['globohappy.png', 'globomad.png', 'globosad.png']
+let globoimage = new Image();
+globoimage.src = globoimages[0];
+let starImage = new Image();
+starImage.src = 'starglobonormal.png';
 
 // draws an image of Globo
-let globoimage = new Image();
-globoimage.src='globohappy.png';
-globoimage.onload=function(){
-    brush.drawImage(globoimage, 15, window.innerHeight-100, 100, 100);
+let drawGlobo = function () {
+    let globoTop = boardHeight - globoHeight;
+    let globoLeft = 15;
+    brush.drawImage(globoimage, globoLeft, globoTop, globoWidth, globoHeight);
 }
 
 // draws a star image
-let starimage = new Image();
-starimage.src='starglobonormal.png';
-starimage.onload=function(){
-    brush.drawImage(starimage,740,640,60,60);
-}
+let drawStar = function() {
+    let starTop = boardHeight - 3 * starHeight;
+    let starLeft = boardWidth - starWidth;
+    
+    brush.drawImage(starImage, starLeft, starTop, starWidth, starHeight);
+};
+
+// clears a piece of the canvas by redrawing the background image on it
+let clearCanvas = function (brush, x, y, width, height) {
+
+    const x1 = x ? x : 0;
+    const y1 = y ? y : 0;
+    const width1 = width ? width : boardWidth;
+    const height1 = height ? height : boardHeight;
+
+    brush.fillStyle = 'blue';
+    brush.fillRect(x1, y1, width1, height1);
+
+};
+
+// makes Globo jump
+let jump = async function (brush) {
+
+    globoimage.src = globoimages[0];
+
+    let globoTop = boardHeight - globoHeight;
+    let iTop = globoTop;
+    let iFrame = 0;
+    while (iFrame < 12) {
+
+        // clears globo
+        clearCanvas(brush, 15, iTop, globoWidth, globoHeight);
+
+        // draws new globo
+        iTop = globoTop - Math.abs(Math.sin(iFrame / 4) * 150);
+        brush.drawImage(globoimage, 15, iTop, globoWidth, globoHeight);
+        
+        await sleep(50);
+        iFrame = iFrame + 1;
+        
+    }
+
+    clearCanvas(brush, 15, iTop, globoWidth, globoHeight);
+    brush.drawImage(globoimage, 15, globoTop, globoWidth, globoHeight);
+
+};
+
+let moveStar = function (brush, starLoop) {
+
+    let starTop = boardHeight - 3 * starHeight;
+    let starLeft = boardWidth - starWidth - (starLoop - 1);
+
+    let from = {
+        x: starLeft,
+        y: starTop
+    };
+
+    starLeft = boardWidth - starWidth - starLoop;
+
+    let to = {
+        x: starLeft,
+        y: starTop
+    };
+
+    clearCanvas(brush, from.x, from.y, starWidth, starHeight);
+    brush.drawImage(starImage, to.x, to.y, starWidth, starHeight);
+
+};
 
 // reacts when you tap
 document.addEventListener('mouseup', async () => {
 
-    drawJump(canvas)
+    jump(brush);
 
 })
 
-// makes Globo jump
-let drawJump = async function (canvas) { 
+let startGame = async function () {
 
-    let brush = canvas.getContext( '2d' );
+    await sleep(1000);
 
-    let iTop = (window.innerHeight - 100);
-    let counter = 0;
-    while (counter < 12) {
+    clearCanvas(brush);
+    drawGlobo();
+    drawStar();
 
-        iTop = (window.innerHeight - 100) - Math.abs(Math.sin(counter / 4) * 150);
-        clearCanvas(canvas);
-        brush.drawImage(globoimage, 15, iTop, 100, 100);
-        
-        await sleep(50);
-        counter = counter + 1;
-        
+    let starLoop = 0;
+
+    while (starLoop < boardWidth) {
+
+        starLoop = starLoop + 1;
+
+        moveStar(brush, starLoop);
+        await sleep(10);
     }
 
-    iTop = (window.innerHeight - 100);
-    clearCanvas(canvas);
-    brush.drawImage(globoimage, 15, iTop, 100, 100);
+}
 
-};
-
-while(counter){}
+startGame();
