@@ -7,7 +7,11 @@ const DAYS_IN_SCHOOL_YEAR = 30;
 const DRAW_POSITION_MULTIPLIER_IN_PIXELS = 20;
 const PAUSE_BETWEEN_DAYS_IN_MILLISECONDS = 120;
 
-// runs a school year, giving points each day to each house
+
+//
+// Exercise 1.2 - you should find the right place to add a loop inside this function
+//
+// This function runs a school year, giving points each day to each house.
 const runSchoolYear = async function (oGraphicCanvas) {
 
     const ravenclawHouse = {
@@ -40,42 +44,29 @@ const runSchoolYear = async function (oGraphicCanvas) {
     let todaysScore = '';
     let winnerBanner = '';
 
-    while (year <= YEARS_AT_SCHOOL) {
+    let day = 1;
 
-        let day = 1;
-        while (day <= DAYS_IN_SCHOOL_YEAR) {
+    randomPoints = Math.round(Math.random() * 5);
+    ravenclawHouse.points = ravenclawHouse.points + randomPoints;
 
-            randomPoints = Math.round(Math.random() * 5);
-            ravenclawHouse.points = ravenclawHouse.points + randomPoints;
+    randomPoints = Math.round(Math.random() * 5);
+    slytherinHouse.points = slytherinHouse.points + randomPoints;
 
-            randomPoints = Math.round(Math.random() * 5);
-            slytherinHouse.points = slytherinHouse.points + randomPoints;
+    randomPoints = Math.round(Math.random() * 5);
+    hufflepuffHouse.points = hufflepuffHouse.points + randomPoints;
 
-            randomPoints = Math.round(Math.random() * 5);
-            hufflepuffHouse.points = hufflepuffHouse.points + randomPoints;
+    randomPoints = Math.round(Math.random() * 5);
+    gryffindorHouse.points = gryffindorHouse.points + randomPoints;
 
-            randomPoints = Math.round(Math.random() * 5);
-            gryffindorHouse.points = gryffindorHouse.points + randomPoints;
+    todaysScore = `Year ${year} - Day ${day} - Ravenclaw: ${ravenclawHouse.points} - Slytherin: ${slytherinHouse.points} - Hufflepuff: ${hufflepuffHouse.points} - Gryffindor: ${gryffindorHouse.points}`;
 
-            todaysScore = `Year ${year} - Day ${day} - Ravenclaw: ${ravenclawHouse.points} - Slytherin: ${slytherinHouse.points} - Hufflepuff: ${hufflepuffHouse.points} - Gryffindor: ${gryffindorHouse.points}`;
+    writeOnCanvas(oGraphicCanvas, 10, 20, `Year ${year} - Day ${day}`);
+    drawScoreOnCanvas(oGraphicCanvas, ravenclawHouse);
+    drawScoreOnCanvas(oGraphicCanvas, slytherinHouse);
+    drawScoreOnCanvas(oGraphicCanvas, hufflepuffHouse);
+    drawScoreOnCanvas(oGraphicCanvas, gryffindorHouse);
 
-            writeOnCanvas(oGraphicCanvas, 10, 20, `Year ${year} - Day ${day}`);
-            drawScoreOnCanvas(oGraphicCanvas, ravenclawHouse);
-            drawScoreOnCanvas(oGraphicCanvas, slytherinHouse);
-            drawScoreOnCanvas(oGraphicCanvas, hufflepuffHouse);
-            drawScoreOnCanvas(oGraphicCanvas, gryffindorHouse);
-
-            console.log(todaysScore);
-
-            day = day + 1;
-
-            // pauses a bit
-            await new Promise(fnResolve => setTimeout(fnResolve, PAUSE_BETWEEN_DAYS_IN_MILLISECONDS));
-
-        };
-
-        year = year + 1;
-    };
+    console.log(todaysScore);
 
     let mostPoints = Math.max(ravenclawHouse.points, slytherinHouse.points, hufflepuffHouse.points, gryffindorHouse.points);
 
@@ -107,12 +98,12 @@ const clearRectOnCanvas = function (oCanvas, x1, y1, x2, y2) {
 };
 
 // draws a bar showing a house's score
-const drawScoreOnCanvas = function (oCanvas, house) {
+const drawScoreOnCanvas = function (oCanvas, team) {
 
-    const x = 100 + house.position * DRAW_POSITION_MULTIPLIER_IN_PIXELS;
+    const x = 100 + team.position * DRAW_POSITION_MULTIPLIER_IN_PIXELS;
     const y = 500;
-    const sColor = house.color1;
-    const nPoints = house.points;
+    const sColor = team.color1;
+    const nPoints = team.points;
     drawOnCanvas(oCanvas, x, y, nPoints, sColor);
 
 };
