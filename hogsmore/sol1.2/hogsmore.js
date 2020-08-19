@@ -12,25 +12,25 @@ const runSchoolYear = async function (oGraphicCanvas) {
     const ravenclawTeam = {
         position: 0,
         color1: '#0aa',
-        color2: '#123',
+        color2: '#0aa',
         points: 0
     };
     const slytherinTeam = {
         position: 1,
         color1: '#0a0',
-        color2: '#123',
+        color2: '#0a0',
         points: 0
     };
     const hufflepuffTeam = {
         position: 2,
         color1: '#00a',
-        color2: '#123',
+        color2: '#00a',
         points: 0
     };
     const gryffindorTeam = {
         position: 3,
         color1: '#a00',
-        color2: '#123',
+        color2: '#aa0',
         points: 0
     };
 
