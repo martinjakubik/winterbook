@@ -202,8 +202,10 @@ const oGraphicCanvas = createGraphicCanvas(oPage);
 const oRunAgainButton = createButton('runAgain', 'Run Again');
 
 oRunAgainButton.onclick = () => {
+
     clearRectOnCanvas(oGraphicCanvas, 0, 0, oGraphicCanvas.width, oGraphicCanvas.height);
     runSchoolYear(oGraphicCanvas);
+
 };
 
 runSchoolYear(oGraphicCanvas);
